@@ -7,7 +7,7 @@ Pour télécharger le script, rdv à la page [Releases](https://github.com/Queto
 
 # = FR =  
 Script pour sauvegarder les identifiants UCID des joueurs, utile principalement pour les serveurs DCS  
-Créée un dossier `\Saved Games\DCS.Multiplayer UcidHandler` avec des listes lua contenant :
+Créée un dossier `\Saved Games\DCS Multiplayer UcidHandler` avec des listes lua contenant :
 - `UCID log.lua` : historique des UCIDS / pseudos connectés  
 - `UCID blacklist.lua` : UCIDS bannis  
 - `UCID whitelist.lua` : si activée, n'autorise l'accés aux slots qu'aux UCIDS présent dans cette liste
