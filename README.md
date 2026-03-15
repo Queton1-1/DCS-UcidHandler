@@ -24,4 +24,4 @@ Déposez le script dans votre `\Saved Games\DCS\Scripts\Hooks\`
 
 **Utilisation**  
 --  
-Alimentez les listes à partir `\Saved Games\DCS.Multiplayer UcidHandler\UCIDS history list.lua`  
+Alimentez les listes à partir `\Saved Games\DCS Multiplayer UcidHandler\UCIDS history list.lua`  
