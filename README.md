@@ -14,7 +14,7 @@ Créée un dossier `\Saved Games\DCS Multiplayer UcidHandler` avec des listes lu
 - `UCID redlist.lua` : si activée, n'autorise l'accés aux slots rouges qu'aux UCIDS présent dans cette liste
 - `UCID bluelist.lua` : si activée, n'autorise l'accés aux slots bleux qu'aux UCIDS présent dans cette liste
 
-[Capture d’écran 2026-03-15 233945.png](https://github.com/Queton1-1/DCS-UcidHandler/blob/main/Capture%20d%E2%80%99%C3%A9cran%202026-03-15%20233945.png)
+![alt text](https://github.com/Queton1-1/DCS-UcidHandler/blob/main/Capture%20d%E2%80%99%C3%A9cran%202026-03-15%20233945.png)
 
 **Mises à jour / Updates**
 --  
@@ -27,4 +27,4 @@ Déposez le script dans votre `\Saved Games\DCS\Scripts\Hooks\`
 **Utilisation**  
 --  
 Alimentez les listes à partir `\Saved Games\DCS Multiplayer UcidHandler\UCIDS history list.lua`  
-[Capture d’écran 2026-03-15 233831.png](https://github.com/Queton1-1/DCS-UcidHandler/blob/main/Capture%20d%E2%80%99%C3%A9cran%202026-03-15%20233831.png)
+![alt text](https://github.com/Queton1-1/DCS-UcidHandler/blob/main/Capture%20d%E2%80%99%C3%A9cran%202026-03-15%20233831.png)
