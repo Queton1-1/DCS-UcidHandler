@@ -3,7 +3,7 @@
 
 Téléchargement / Download  
 -- 
-Pour télécharger le script, rdv à la page [Releases](https://github.com/Queton1-1/UcidHandler/releases)
+Pour télécharger le script, rdv à la page [Releases](https://github.com/Queton1-1/DCS-UcidHandler/releases)
 
 # = FR =  
 Script pour sauvegarder les identifiants UCID des joueurs   
