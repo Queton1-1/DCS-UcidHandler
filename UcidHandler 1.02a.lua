@@ -1,7 +1,7 @@
 -- %%% CREDITS %%%
 -- JGi | Quéton 1-1
 local SCRIPT_NAME="UCID Handler"
-local VERSION="1.01b"
+local VERSION="1.02a"
 local PRE="UCID Handler"
 local DEBUG_MODE=false
 
@@ -9,13 +9,17 @@ local DEBUG_MODE=false
 -- None, put this to Saved Games/DCS/Scripts/Hooks/
 
 --[[ %%% CHANGELOG %%%
+    1.02a
+    - pcall protection on all dofile() calls to prevent crash on corrupted files
+    - fallback to empty table if file load fails, server keeps running
+    - WriteDatas() now logs file write errors
+    - All Load functions now guarantee a non-nil table after execution
     1.01b
     - small changes
     1.01a
     - Add save to text file
     - refactor on some parts
     - add comment to user
-
     1.00
     - Initial
 --]]
@@ -124,39 +128,65 @@ end
 local function IsDir(path)
     return lfs.attributes(path, "mode") == "directory"
 end
+
 local function WriteDatas(data, file)
-    local _saveFile = OpenFile(file, "w")
-    if _saveFile then _saveFile:write(data) _saveFile:close() end
+    local _saveFile, err = OpenFile(file, "w")
+    if _saveFile then
+        _saveFile:write(data)
+        _saveFile:close()
+    else
+        Log("ERREUR écriture fichier : " .. tostring(err) .. " -> " .. tostring(file))
+    end
 end
 local function LoadUcidLog()
-    ucid_log=nil
+    ucid_log = nil
     if FileExists(UCID_LOG_FILE) then
-        dofile(UCID_LOG_FILE)
+        local ok, err = pcall(dofile, UCID_LOG_FILE)
+        if not ok then
+            Log("ERREUR lecture UCID log : " .. tostring(err))
+        end
     end
+    if ucid_log == nil then ucid_log = {} end
 end
 local function LoadUcidBlackList()
-    ucid_blacklist=nil
+    ucid_blacklist = nil
     if FileExists(UCID_BLACKLIST_FILE) then
-        dofile(UCID_BLACKLIST_FILE)
+        local ok, err = pcall(dofile, UCID_BLACKLIST_FILE)
+        if not ok then
+            Log("ERREUR lecture blacklist : " .. tostring(err))
+        end
     end
+    if ucid_blacklist == nil then ucid_blacklist = {} end
 end
 local function LoadUcidWhiteList()
-    ucid_whitelist=nil
+    ucid_whitelist = nil
     if FileExists(UCID_WHITELIST_FILE) then
-        dofile(UCID_WHITELIST_FILE)
+        local ok, err = pcall(dofile, UCID_WHITELIST_FILE)
+        if not ok then
+            Log("ERREUR lecture whitelist : " .. tostring(err))
+        end
     end
+    if ucid_whitelist == nil then ucid_whitelist = {} end
 end
 local function LoadUcidRedList()
-    ucid_redlist=nil
+    ucid_redlist = nil
     if FileExists(UCID_REDLIST_FILE) then
-        dofile(UCID_REDLIST_FILE)
+        local ok, err = pcall(dofile, UCID_REDLIST_FILE)
+        if not ok then
+            Log("ERREUR lecture redlist : " .. tostring(err))
+        end
     end
+    if ucid_redlist == nil then ucid_redlist = {} end
 end
 local function LoadUcidBlueList()
-    ucid_bluelist=nil
+    ucid_bluelist = nil
     if FileExists(UCID_BLUELIST_FILE) then
-        dofile(UCID_BLUELIST_FILE)
+        local ok, err = pcall(dofile, UCID_BLUELIST_FILE)
+        if not ok then
+            Log("ERREUR lecture bluelist : " .. tostring(err))
+        end
     end
+    if ucid_bluelist == nil then ucid_bluelist = {} end
 end
 local function SaveUcidLog()
     local datas = SmartSerialize("ucid_log", ucid_log)
@@ -236,7 +266,6 @@ DCS.setUserCallbacks({
         local data = GetPlayer(playerID)
         if data and data.ucid and data.name then
             ucid_log[data.ucid]=data.name
-            -- Log("New player : "..data.name.." - UCID : "..data.ucid.." - ID : "..playerID)
             local msg = WELCOME_MESSAGE.." ".. data.name
             SendChat(msg, playerID)
             DoStringIn('mission', StringFormat("trigger.action.outText('%s', 5)",msg))
@@ -253,7 +282,6 @@ DCS.setUserCallbacks({
         end
         if ONLY_WHITELIST_CAN_SLOT==true and ucid_whitelist[ucid]==nil 
         or USE_INTERNAL_LISTS==true and ONLY_WHITELIST_CAN_SLOT==true and INTERNAL_WHITELIST[ucid] then
-            SendChat(ON_DENIED_SLOT, playerID)
             Log("Whitelist active, access denied : ".. ucid .." - "..name)
             return false, ON_WHITELIST_MESSAGE
         end
